@@ -7,5 +7,4 @@ const lambda = new GraphQLServerLambda({
   resolvers
 });
 
-exports.server = lambda.graphqlHandler;
-exports.playground = lambda.playgroundHandler;
+module.exports = lambda.graphqlHandler;

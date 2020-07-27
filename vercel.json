@@ -1,9 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/playground",
-      "methods": ["GET"],
-      "dest": "/serverless/playground.js"
-    }
-  ]
-}
