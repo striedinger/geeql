@@ -10,6 +10,7 @@ const typeDefs = `
     seoId: String,
     canonicalUrl: String,
     headline: String,
+    summary: String,
     keywords: [String],
     sectionName: String,
     sectionType: String,
@@ -17,7 +18,16 @@ const typeDefs = `
     enableCoralComments: Boolean,
     commentCount: Int,
     authors: [Author],
+    image: Image,
   }
+  type Image {
+    slug: ID!,
+    url: String,
+    credit: String,
+    caption: String,
+    height: Int,
+    width: Int,
+  },
   type Author {
     id: ID!,
     seoName: String!,

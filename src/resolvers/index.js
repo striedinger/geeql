@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
+const get = require('lodash.get');
 
 const ALLESSEH_URL = process.env.ALLESSEH_URL;
 const ALLESSEH_KEY = process.env.ALLESSEH_KEY;
@@ -95,15 +96,15 @@ const resolvers = {
           ],
           not: [
             {
-              term: {
+              terms: {
                 key: "SectionName",
-                value: "Decos and Corrections"
+                value: ["Corrections and Amplifications" ,"Decos and Corrections", "Direct Push Alert", "WSJ Puzzles"],
               }
             },
             {
-              term: {
-                key: "SectionName",
-                value: "Page One"
+              terms: {
+                key: "SectionType",
+                value: ["Deco Summary Liondoor", "Infogrfx House Of The Day", "Pro Bankruptcy Data Tables"],
               }
             }
           ]
@@ -130,6 +131,7 @@ const resolvers = {
     seoId: (parent) => parent.data.attributes.seo_id,
     canonicalUrl: (parent) => parent.data.attributes.source_url,
     headline: (parent) => parent.data.attributes.headline.text,
+    summary: (parent) => get(parent, 'data.attributes.summary.content[1].content[0].text'),
     sectionName: (parent) => parent.data.attributes.section_name,
     sectionType: (parent) => parent.data.attributes.section_type,
     keywords: (parent) => parent.data.attributes.keywords,
@@ -149,7 +151,19 @@ const resolvers = {
         const result = await callAuthorApi(author.id);
         return result;
       });
-    }
+    },
+    image: (parent) => {
+      const imageObj = parent.links.related.reverse().find(obj => obj.type === 'image') || {};
+      console.log(imageObj);
+      return {
+        slug: imageObj.slug,
+        url: imageObj.properties.location,
+        credit: imageObj.credit,
+        caption: imageObj.caption,
+        height: imageObj.height,
+        width: imageObj.width,
+      }
+    },
   },
   Author: {
     id: (parent) => parent.id,
