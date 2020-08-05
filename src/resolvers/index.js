@@ -98,7 +98,7 @@ const resolvers = {
             {
               terms: {
                 key: "SectionName",
-                value: ["Corrections and Amplifications" ,"Decos and Corrections", "Direct Push Alert", "WSJ Puzzles"],
+                value: ["Pepper...and Salt", "Corrections and Amplifications" ,"Decos and Corrections", "Direct Push Alert", "WSJ Puzzles"],
               }
             },
             {
@@ -157,7 +157,7 @@ const resolvers = {
       console.log(imageObj);
       return {
         slug: imageObj.slug,
-        url: imageObj.properties.location,
+        url: get(imageObj, 'properties.location'),
         credit: imageObj.credit,
         caption: imageObj.caption,
         height: imageObj.height,
