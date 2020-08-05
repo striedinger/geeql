@@ -98,13 +98,13 @@ const resolvers = {
             {
               terms: {
                 key: "SectionName",
-                value: ["Pepper...and Salt", "Corrections and Amplifications" ,"Decos and Corrections", "Direct Push Alert", "WSJ Puzzles"],
+                value: ["Corrections and Amplifications" ,"Decos and Corrections", "Direct Push Alert", "WSJ Puzzles"],
               }
             },
             {
               terms: {
                 key: "SectionType",
-                value: ["Deco Summary Liondoor", "Infogrfx House Of The Day", "Pro Bankruptcy Data Tables"],
+                value: ["Pepper & Salt", "Deco Summary Liondoor", "Infogrfx House Of The Day", "Pro Bankruptcy Data Tables"],
               }
             }
           ]
