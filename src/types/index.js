@@ -37,6 +37,7 @@ const typeDefs = `
     title: String,
     email: String,
     twitterHandle: String,
+    facebookHandle: String,
     hedcutUrl: String,
     articles(count: Int, page: Int): [Article],
   }

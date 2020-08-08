@@ -174,6 +174,7 @@ const resolvers = {
     title: (parent) => parent.data.title,
     email: (parent) => parent.data.emailAddress,
     twitterHandle: (parent) => parent.data.twitterHandle,
+    facebookHandle: (parent) => parent.data.facebookAccount,
     hedcutUrl: (parent) => parent.data.hedcutImage,
     articles: async (parent, args) => {
       const { count = 10, page = 0 } = args;
