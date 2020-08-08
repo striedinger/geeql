@@ -51,7 +51,6 @@ const callAllessehSearch = async (query = {}, page = 0) => {
 const callAuthorApi = async (id, seoname) => {
   if (!id && !seoname) throw new Error('Must include id or seoname');
   const url = seoname ? `${AUTHOR_API_URL}${seoname}` : `${AUTHOR_API_URL}${id}`;
-  console.log(url);
   const response = await axios.get(url);
   if (response.status === 200) return response.data;
   throw new Error(`${response.status} - ${response.statusText}`);
@@ -156,7 +155,6 @@ const resolvers = {
     },
     image: (parent) => {
       const imageObj = parent.links.related.reverse().find(obj => obj.type === 'image') || {};
-      console.log(imageObj);
       return {
         slug: imageObj.slug,
         url: get(imageObj, 'properties.location'),
