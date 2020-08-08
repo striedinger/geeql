@@ -4,7 +4,7 @@ const get = require('lodash.get');
 
 const ALLESSEH_URL = process.env.ALLESSEH_URL;
 const ALLESSEH_KEY = process.env.ALLESSEH_KEY;
-const AUTHOR_API_URL = process.env.AUTHOR_API_URL;
+const AUTHOR_API_URL = process.env.ALT_AUTHOR_API_URL;
 const CORAL_URL = process.env.CORAL_URL;
 
 const WIRE_IDS_MAP = {
@@ -49,7 +49,9 @@ const callAllessehSearch = async (query = {}, page = 0) => {
 };
 
 const callAuthorApi = async (id, seoname) => {
-  const url = seoname ? `${AUTHOR_API_URL}/seoname/${seoname}` : `${AUTHOR_API_URL}/id/${id}`;
+  if (!id && !seoname) throw new Error('Must include id or seoname');
+  const url = seoname ? `${AUTHOR_API_URL}${seoname}` : `${AUTHOR_API_URL}${id}`;
+  console.log(url);
   const response = await axios.get(url);
   if (response.status === 200) return response.data;
   throw new Error(`${response.status} - ${response.statusText}`);
@@ -166,18 +168,15 @@ const resolvers = {
     },
   },
   Author: {
-    id: (parent) => parent.id,
-    seoName: (parent) => parent.seoname,
-    firstName: (parent) => parent.firstname,
-    middleName: (parent) => parent.middlename,
-    lastName: (parent) => parent.lastname,
-    byline: (parent) => parent.byline,
-    displayName: (parent) => parent.displayname,
-    bio: (parent) => parent.biography,
-    seoDescription: (parent) => parent.seodescription,
-    title: (parent) => parent.title,
-    twitterHandle: (parent) => parent.twitterhandle,
-    hedcutUrl: (parent) => parent.hedcutimage,
+    id: (parent) => parent.data.authorId,
+    seoName: (parent) => parent.data.seoname,
+    byline: (parent) => parent.data.byline,
+    bio: (parent) => parent.data.biography,
+    seoDescription: (parent) => parent.data.seodescription,
+    title: (parent) => parent.data.title,
+    email: (parent) => parent.data.emailAddress,
+    twitterHandle: (parent) => parent.data.twitterHandle,
+    hedcutUrl: (parent) => parent.data.hedcutImage,
     articles: async (parent, args) => {
       const { count = 10, page = 0 } = args;
       const query = {
@@ -187,7 +186,7 @@ const resolvers = {
             {
               term: {
                 key: "AuthorId",
-                value: parent.id
+                value: parent.data.authorId
               }
             },
             {
