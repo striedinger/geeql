@@ -3,6 +3,19 @@ const typeDefs = `
     article(id: String, seoId: String): Article,
     articles(count: Int, page: Int, sectionName: String): [Article]!,
     author(id: Int, seoName: String): Author,
+    collection(collectionId: String!): Collection,
+  }
+  type Collection {
+    id: ID!,
+    status: String,
+    displayDate: String,
+    updatedDate: String,
+    articles: [Article],
+    parameters: [CollectionParams],
+  }
+  type CollectionParams {
+    name: String,
+    value: String,
   }
   type Article {
     id: ID!,

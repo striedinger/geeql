@@ -22,6 +22,18 @@ const callCoralComments = async (canonicalUrl) => {
   throw new Error(`${response.status} - ${response.statusText}`);
 };
 
+const callAllessehCollection = async (collection) => {
+  const response = await axios({
+    metthod: 'GET',
+    url: `${ALLESSEH_URL}/api/summaries/v2/collection/${collection}`,
+    headers: {
+      'x-api-key': ALLESSEH_KEY
+    }
+  });
+  if (response.status === 200) return response.data;
+  throw new Error(`${response.status} - ${response.statusText}`);
+};
+
 const callAllessehArticle = async (id, seoId) => {
   const url = seoId ? `${ALLESSEH_URL}/api/articles/v1/wsj/seoId/${seoId}` : `${ALLESSEH_URL}/api/articles/v1/wsj/originId/${id}`;
   const response = await axios({
@@ -124,7 +136,12 @@ const resolvers = {
       const { id, seoName } = args;
       const result = await callAuthorApi(id, seoName);
       return result;
-    }
+    },
+    collection: async (parent, args) => {
+      const { collectionId } = args;
+      const result = await callAllessehCollection(collectionId);
+      return result;
+    },
   },
   Article: {
     id: (parent) => parent.data.id,
@@ -200,7 +217,15 @@ const resolvers = {
       const result = await callAllessehSearch(query, page);
       return result;
     }
-  }
+  },
+  Collection: {
+    id: (parent) => parent.data.id,
+    status: (parent) => parent.data.attributes.status,
+    displayDate: (parent) => parent.data.attributes.display_date,
+    updatedDate: (parent) => parent.data.attributes.updated_datetime,
+    articles: (parent) => parent.included.map(article => article.attributes),
+    parameters: (parent) => parent.data.attributes.parameters,
+  },
 };
 
 module.exports = resolvers;
