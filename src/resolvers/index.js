@@ -138,8 +138,8 @@ const resolvers = {
       return result;
     },
     collection: async (parent, args) => {
-      const { collectionId } = args;
-      const result = await callAllessehCollection(collectionId);
+      const { id } = args;
+      const result = await callAllessehCollection(id);
       return result;
     },
   },
@@ -154,15 +154,6 @@ const resolvers = {
     sectionType: (parent) => parent.data.attributes.section_type,
     keywords: (parent) => parent.data.attributes.keywords,
     published: (parent) => parent.data.attributes.live_datetime,
-    enableCoralComments: (parent) => {
-      return coralCommentsEnabled(parent);
-    },
-    commentCount: async (parent) => {
-      if (!coralCommentsEnabled(parent)) return 0;
-      const response = await callCoralComments(parent.data.attributes.source_url);
-      const data = response[parent.data.attributes.source_url] || {};
-      return data.count || 0;
-    },
     authors: async (parent) => {
       const authors = parent.data.attributes.authors;
       return authors.filter(author => author.id).map(async author => {
@@ -170,6 +161,7 @@ const resolvers = {
         return result;
       });
     },
+    comments: async (parent) => parent,
     image: (parent) => {
       const imageObj = parent.links.related.reverse().find(obj => obj.type === 'image') || {};
       return {
@@ -181,6 +173,15 @@ const resolvers = {
         width: imageObj.width,
       }
     },
+  },
+  ArticleComments: {
+    count: async (parent) => {
+      if (!coralCommentsEnabled(parent)) return 0;
+      const response = await callCoralComments(parent.data.attributes.source_url);
+      const data = response[parent.data.attributes.source_url] || {};
+      return data.count || 0;
+    },
+    enabled: (parent) => coralCommentsEnabled(parent),
   },
   Author: {
     id: (parent) => parent.data.authorId,

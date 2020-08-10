@@ -3,7 +3,7 @@ const typeDefs = `
     article(id: String, seoId: String): Article,
     articles(count: Int, page: Int, sectionName: String): [Article]!,
     author(id: Int, seoName: String): Author,
-    collection(collectionId: String!): Collection,
+    collection(id: String!): Collection,
   }
   type Collection {
     id: ID!,
@@ -11,9 +11,9 @@ const typeDefs = `
     displayDate: String,
     updatedDate: String,
     articles: [Article],
-    parameters: [CollectionParams],
+    parameters: [CollectionParameter],
   }
-  type CollectionParams {
+  type CollectionParameter {
     name: String,
     value: String,
   }
@@ -28,12 +28,15 @@ const typeDefs = `
     sectionName: String,
     sectionType: String,
     published: String,
-    enableCoralComments: Boolean,
-    commentCount: Int,
+    comments: ArticleComments,
     authors: [Author],
-    image: Image,
+    image: ArticleImage,
   }
-  type Image {
+  type ArticleComments {
+    count: Int,
+    enabled: Boolean,
+  }
+  type ArticleImage {
     slug: ID!,
     url: String,
     credit: String,

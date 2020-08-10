@@ -12,6 +12,7 @@ You will need to create an `.env` file with the following variables:
 - `ALLESSEH_URL`
 - `ALLESSEH_KEY`
 - `AUTHOR_API_URL`
+- `ALT_AUTHOR_API_URL` since author api is not public, we'll use `?/type=foo&id=bar` on main site.
 - `CORAL_URL`
 
 ### Resources
@@ -22,6 +23,7 @@ You will need to create an `.env` file with the following variables:
 |article|id: String, seoId: String|Article|
 |articles|count: Int = 10, page: Int = 0, sectionName: String|[Article]|
 |author|id: Int, seoName: String|Author|
+|collection|id: String|Collection|
 
 - Article
 
@@ -35,9 +37,45 @@ You will need to create an `.env` file with the following variables:
 |sectionName| |String|
 |sectionType| |String|
 |published| |String|
-|enableCoralComments| |Boolean|
-|commentCount| |Int|
-|authors| |[Author]
+|authors| |[Author]|
+|image| |ArticleImage|
+|comments| |ArticleComments|
+
+- ArticleImage
+
+|Parameter|Arguments|Type|
+| --- | --- | --- |
+|slug| |ID!|
+|url| |String|
+|credit| |String|
+|caption| |String|
+|height| |Int|
+|width| |Int|
+
+- ArticleComments
+
+|Parameter|Arguments|Type|
+| --- | --- | --- |
+|enabled| |Boolean|
+|count| |Int|
+
+- Collection
+
+|Parameter|Arguments|Type|
+| --- | --- | --- |
+|id| |ID!|
+|status| |String|
+|displayDate| |String|
+|updatedDate| |String|
+|articles| |[Article]|
+|parameters| |[CollectionParameter]|
+
+- CollectionParameter
+
+|Parameter|Arguments|Type|
+| --- | --- | --- |
+|name| |String|
+|value| |String|
 
 - Author
 
@@ -45,14 +83,12 @@ You will need to create an `.env` file with the following variables:
 | --- | --- | --- |
 |id| |ID!|
 |seoName| |String!|
-|firstName| |String|
-|middleName| |String|
-|lastName| |String|
 |byline| |String|
-|displayName| |String|
 |bio| |String|
 |seoDescription| |String|
 |title| |String|
+|email| |String|
 |twitterHandle| |String|
+|facebookHandle| |String|
 |hedcutURL| |String|
 |articles|count: Int = 10, page: Int = 0|[Article]|
