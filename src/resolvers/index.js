@@ -86,12 +86,20 @@ const resolvers = {
       throw new Error('Not Found');
     },
     articles: async (parent, args) => {
-      const { count = 10, page = 0, sectionName = null } = args;
+      const { authorId, authorName, count = 10, page = 0, sectionName = null } = args;
       const sectionFilter = sectionName ? [
         {
           term: {
             key: "SectionName",
             value: sectionName
+          }
+        }
+      ] : [];
+      const authorFilter = (authorId || authorName)? [
+        {
+          term: {
+            key: authorId ? "AuthorId" : "Author",
+            value: authorId ? authorId : authorName
           }
         }
       ] : [];
@@ -105,7 +113,8 @@ const resolvers = {
                 value: "WSJ.com"
               }
             },
-            ...sectionFilter
+            ...sectionFilter,
+            ...authorFilter,
           ],
           not: [
             {

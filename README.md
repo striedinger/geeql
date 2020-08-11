@@ -21,7 +21,7 @@ You will need to create an `.env` file with the following variables:
 |Parameter|Arguments|Type|
 | --- | --- | --- |
 |article|id: String, seoId: String|Article|
-|articles|count: Int = 10, page: Int = 0, sectionName: String|[Article]|
+|articles|count: Int = 10, page: Int = 0, sectionName: String, authorId: Int, authorName: String|[Article]|
 |author|id: Int, seoName: String|Author|
 |collection|id: String|Collection|
 

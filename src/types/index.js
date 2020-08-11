@@ -1,7 +1,7 @@
 const typeDefs = `
   type Query {
     article(id: String, seoId: String): Article,
-    articles(count: Int, page: Int, sectionName: String): [Article]!,
+    articles(count: Int, page: Int, sectionName: String, authorId: Int, authorName: String): [Article]!,
     author(id: Int, seoName: String): Author,
     collection(id: String!): Collection,
   }
